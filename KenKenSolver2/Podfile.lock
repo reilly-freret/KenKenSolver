@@ -1,0 +1,20 @@
+PODS:
+  - OpenCV (3.4.2)
+  - SwiftyTesseract (2.0.0)
+
+DEPENDENCIES:
+  - OpenCV
+  - SwiftyTesseract
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - OpenCV
+    - SwiftyTesseract
+
+SPEC CHECKSUMS:
+  OpenCV: 452909747854c92e0f59670961ed5131f5286cb5
+  SwiftyTesseract: 9a7e7df8b89c56d732a58c5fcf2e79c35d1e88c9
+
+PODFILE CHECKSUM: 0ff0decbdebce5af412c1a0585514c4f51873f2c
+
+COCOAPODS: 1.5.3

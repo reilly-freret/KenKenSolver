@@ -1,0 +1,644 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2EAFF33C32398A0A26AAB161 /* Pods_KenKenSolver2Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 721128F9772B19549D2BA8B0 /* Pods_KenKenSolver2Tests.framework */; };
+		84165538F54813909421C5DD /* Pods_KenKenSolver2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70EAEF3FD60F51C5032EFA11 /* Pods_KenKenSolver2.framework */; };
+		AF5C063D21A89E940054EF22 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AF5C063C21A89E940054EF22 /* OpenCVWrapper.mm */; };
+		AFABBC1421A895260033EA9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFABBC1321A895260033EA9D /* AppDelegate.swift */; };
+		AFABBC1621A895260033EA9D /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AFABBC1521A895260033EA9D /* art.scnassets */; };
+		AFABBC1B21A895260033EA9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFABBC1921A895260033EA9D /* Main.storyboard */; };
+		AFABBC1D21A895270033EA9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFABBC1C21A895270033EA9D /* Assets.xcassets */; };
+		AFABBC2021A895270033EA9D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFABBC1E21A895270033EA9D /* LaunchScreen.storyboard */; };
+		AFABBC2B21A895270033EA9D /* KenKenSolver2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFABBC2A21A895270033EA9D /* KenKenSolver2Tests.swift */; };
+		AFAC821C21A89B1B000143DD /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC821B21A89B1B000143DD /* UIView.swift */; };
+		AFAC822121A89BEF000143DD /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC822021A89BEF000143DD /* Cell.swift */; };
+		AFAC822321A89BF7000143DD /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC822221A89BF7000143DD /* Group.swift */; };
+		AFAC822521A89BFE000143DD /* Puzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC822421A89BFE000143DD /* Puzzle.swift */; };
+		AFAC822721A89CDB000143DD /* LandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC822621A89CDB000143DD /* LandingController.swift */; };
+		AFAC822921A89CEC000143DD /* ARController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC822821A89CEC000143DD /* ARController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AFABBC2721A895270033EA9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AFABBC0821A895260033EA9D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AFABBC0F21A895260033EA9D;
+			remoteInfo = KenKenSolver2;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		34D0E2707B736C080B55BC9B /* Pods-KenKenSolver2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KenKenSolver2.release.xcconfig"; path = "Pods/Target Support Files/Pods-KenKenSolver2/Pods-KenKenSolver2.release.xcconfig"; sourceTree = "<group>"; };
+		70EAEF3FD60F51C5032EFA11 /* Pods_KenKenSolver2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KenKenSolver2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		721128F9772B19549D2BA8B0 /* Pods_KenKenSolver2Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KenKenSolver2Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C4B18C33E02120FFA4EE2FD /* Pods-KenKenSolver2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KenKenSolver2Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KenKenSolver2Tests/Pods-KenKenSolver2Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		95E687C01BE957CA38F4D774 /* Pods-KenKenSolver2Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KenKenSolver2Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KenKenSolver2Tests/Pods-KenKenSolver2Tests.release.xcconfig"; sourceTree = "<group>"; };
+		96F10BE7CDD44C7C247551C0 /* Pods-KenKenSolver2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KenKenSolver2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KenKenSolver2/Pods-KenKenSolver2.debug.xcconfig"; sourceTree = "<group>"; };
+		AF5C063B21A89E930054EF22 /* KenKenSolver2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KenKenSolver2-Bridging-Header.h"; sourceTree = "<group>"; };
+		AF5C063C21A89E940054EF22 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		AF5C063E21A89EA30054EF22 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
+		AFABBC1021A895260033EA9D /* KenKenSolver2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KenKenSolver2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFABBC1321A895260033EA9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AFABBC1521A895260033EA9D /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
+		AFABBC1A21A895260033EA9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AFABBC1C21A895270033EA9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AFABBC1F21A895270033EA9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AFABBC2121A895270033EA9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFABBC2621A895270033EA9D /* KenKenSolver2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KenKenSolver2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFABBC2A21A895270033EA9D /* KenKenSolver2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KenKenSolver2Tests.swift; sourceTree = "<group>"; };
+		AFABBC2C21A895270033EA9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFAC821B21A89B1B000143DD /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		AFAC822021A89BEF000143DD /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		AFAC822221A89BF7000143DD /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		AFAC822421A89BFE000143DD /* Puzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle.swift; sourceTree = "<group>"; };
+		AFAC822621A89CDB000143DD /* LandingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingController.swift; sourceTree = "<group>"; };
+		AFAC822821A89CEC000143DD /* ARController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AFABBC0D21A895260033EA9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84165538F54813909421C5DD /* Pods_KenKenSolver2.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFABBC2321A895270033EA9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2EAFF33C32398A0A26AAB161 /* Pods_KenKenSolver2Tests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		586A27EBC7B2806B124A0D6B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				70EAEF3FD60F51C5032EFA11 /* Pods_KenKenSolver2.framework */,
+				721128F9772B19549D2BA8B0 /* Pods_KenKenSolver2Tests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AF5C063A21A89DBB0054EF22 /* wrappers */ = {
+			isa = PBXGroup;
+			children = (
+				AF5C063C21A89E940054EF22 /* OpenCVWrapper.mm */,
+				AF5C063E21A89EA30054EF22 /* OpenCVWrapper.h */,
+				AF5C063B21A89E930054EF22 /* KenKenSolver2-Bridging-Header.h */,
+			);
+			path = wrappers;
+			sourceTree = "<group>";
+		};
+		AFABBC0721A895260033EA9D = {
+			isa = PBXGroup;
+			children = (
+				AFABBC1221A895260033EA9D /* KenKenSolver2 */,
+				AFABBC2921A895270033EA9D /* KenKenSolver2Tests */,
+				AFABBC1121A895260033EA9D /* Products */,
+				FE248A5C4902AB4A14E7E93D /* Pods */,
+				586A27EBC7B2806B124A0D6B /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AFABBC1121A895260033EA9D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AFABBC1021A895260033EA9D /* KenKenSolver2.app */,
+				AFABBC2621A895270033EA9D /* KenKenSolver2Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AFABBC1221A895260033EA9D /* KenKenSolver2 */ = {
+			isa = PBXGroup;
+			children = (
+				AFABBC1321A895260033EA9D /* AppDelegate.swift */,
+				AF5C063A21A89DBB0054EF22 /* wrappers */,
+				AFAC821F21A89BDA000143DD /* controllers */,
+				AFAC821E21A89BD5000143DD /* views */,
+				AFAC821D21A89BCB000143DD /* models */,
+				AFAC821A21A89B0F000143DD /* extensions */,
+				AFABBC1521A895260033EA9D /* art.scnassets */,
+				AFABBC1921A895260033EA9D /* Main.storyboard */,
+				AFABBC1C21A895270033EA9D /* Assets.xcassets */,
+				AFABBC1E21A895270033EA9D /* LaunchScreen.storyboard */,
+				AFABBC2121A895270033EA9D /* Info.plist */,
+			);
+			path = KenKenSolver2;
+			sourceTree = "<group>";
+		};
+		AFABBC2921A895270033EA9D /* KenKenSolver2Tests */ = {
+			isa = PBXGroup;
+			children = (
+				AFABBC2A21A895270033EA9D /* KenKenSolver2Tests.swift */,
+				AFABBC2C21A895270033EA9D /* Info.plist */,
+			);
+			path = KenKenSolver2Tests;
+			sourceTree = "<group>";
+		};
+		AFAC821A21A89B0F000143DD /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AFAC821B21A89B1B000143DD /* UIView.swift */,
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
+		AFAC821D21A89BCB000143DD /* models */ = {
+			isa = PBXGroup;
+			children = (
+				AFAC822021A89BEF000143DD /* Cell.swift */,
+				AFAC822221A89BF7000143DD /* Group.swift */,
+				AFAC822421A89BFE000143DD /* Puzzle.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		AFAC821E21A89BD5000143DD /* views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		AFAC821F21A89BDA000143DD /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AFAC822621A89CDB000143DD /* LandingController.swift */,
+				AFAC822821A89CEC000143DD /* ARController.swift */,
+			);
+			path = controllers;
+			sourceTree = "<group>";
+		};
+		FE248A5C4902AB4A14E7E93D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				96F10BE7CDD44C7C247551C0 /* Pods-KenKenSolver2.debug.xcconfig */,
+				34D0E2707B736C080B55BC9B /* Pods-KenKenSolver2.release.xcconfig */,
+				7C4B18C33E02120FFA4EE2FD /* Pods-KenKenSolver2Tests.debug.xcconfig */,
+				95E687C01BE957CA38F4D774 /* Pods-KenKenSolver2Tests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AFABBC0F21A895260033EA9D /* KenKenSolver2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AFABBC2F21A895270033EA9D /* Build configuration list for PBXNativeTarget "KenKenSolver2" */;
+			buildPhases = (
+				299D460C33562FD24BC2609D /* [CP] Check Pods Manifest.lock */,
+				AFABBC0C21A895260033EA9D /* Sources */,
+				AFABBC0D21A895260033EA9D /* Frameworks */,
+				AFABBC0E21A895260033EA9D /* Resources */,
+				D9BD5909750817E1D67376B5 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KenKenSolver2;
+			productName = KenKenSolver2;
+			productReference = AFABBC1021A895260033EA9D /* KenKenSolver2.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AFABBC2521A895270033EA9D /* KenKenSolver2Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AFABBC3221A895270033EA9D /* Build configuration list for PBXNativeTarget "KenKenSolver2Tests" */;
+			buildPhases = (
+				EA3F545CAA26E66262ED67D6 /* [CP] Check Pods Manifest.lock */,
+				AFABBC2221A895270033EA9D /* Sources */,
+				AFABBC2321A895270033EA9D /* Frameworks */,
+				AFABBC2421A895270033EA9D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AFABBC2821A895270033EA9D /* PBXTargetDependency */,
+			);
+			name = KenKenSolver2Tests;
+			productName = KenKenSolver2Tests;
+			productReference = AFABBC2621A895270033EA9D /* KenKenSolver2Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AFABBC0821A895260033EA9D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1000;
+				LastUpgradeCheck = 1000;
+				ORGANIZATIONNAME = "Reilly Freret";
+				TargetAttributes = {
+					AFABBC0F21A895260033EA9D = {
+						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1000;
+					};
+					AFABBC2521A895270033EA9D = {
+						CreatedOnToolsVersion = 10.0;
+						TestTargetID = AFABBC0F21A895260033EA9D;
+					};
+				};
+			};
+			buildConfigurationList = AFABBC0B21A895260033EA9D /* Build configuration list for PBXProject "KenKenSolver2" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AFABBC0721A895260033EA9D;
+			productRefGroup = AFABBC1121A895260033EA9D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AFABBC0F21A895260033EA9D /* KenKenSolver2 */,
+				AFABBC2521A895270033EA9D /* KenKenSolver2Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AFABBC0E21A895260033EA9D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFABBC1621A895260033EA9D /* art.scnassets in Resources */,
+				AFABBC2021A895270033EA9D /* LaunchScreen.storyboard in Resources */,
+				AFABBC1D21A895270033EA9D /* Assets.xcassets in Resources */,
+				AFABBC1B21A895260033EA9D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFABBC2421A895270033EA9D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		299D460C33562FD24BC2609D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KenKenSolver2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D9BD5909750817E1D67376B5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-KenKenSolver2/Pods-KenKenSolver2-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SwiftyTesseract/SwiftyTesseract.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyTesseract.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KenKenSolver2/Pods-KenKenSolver2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EA3F545CAA26E66262ED67D6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KenKenSolver2Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AFABBC0C21A895260033EA9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFAC822921A89CEC000143DD /* ARController.swift in Sources */,
+				AFAC822521A89BFE000143DD /* Puzzle.swift in Sources */,
+				AFAC821C21A89B1B000143DD /* UIView.swift in Sources */,
+				AFABBC1421A895260033EA9D /* AppDelegate.swift in Sources */,
+				AFAC822721A89CDB000143DD /* LandingController.swift in Sources */,
+				AFAC822121A89BEF000143DD /* Cell.swift in Sources */,
+				AF5C063D21A89E940054EF22 /* OpenCVWrapper.mm in Sources */,
+				AFAC822321A89BF7000143DD /* Group.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFABBC2221A895270033EA9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFABBC2B21A895270033EA9D /* KenKenSolver2Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AFABBC2821A895270033EA9D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AFABBC0F21A895260033EA9D /* KenKenSolver2 */;
+			targetProxy = AFABBC2721A895270033EA9D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AFABBC1921A895260033EA9D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AFABBC1A21A895260033EA9D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AFABBC1E21A895270033EA9D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AFABBC1F21A895270033EA9D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AFABBC2D21A895270033EA9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AFABBC2E21A895270033EA9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AFABBC3021A895270033EA9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96F10BE7CDD44C7C247551C0 /* Pods-KenKenSolver2.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KQYA2A8JRS;
+				INFOPLIST_FILE = KenKenSolver2/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.freret.KenKenSolver2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "KenKenSolver2/wrappers/KenKenSolver2-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AFABBC3121A895270033EA9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34D0E2707B736C080B55BC9B /* Pods-KenKenSolver2.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KQYA2A8JRS;
+				INFOPLIST_FILE = KenKenSolver2/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.freret.KenKenSolver2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "KenKenSolver2/wrappers/KenKenSolver2-Bridging-Header.h";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AFABBC3321A895270033EA9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7C4B18C33E02120FFA4EE2FD /* Pods-KenKenSolver2Tests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KQYA2A8JRS;
+				INFOPLIST_FILE = KenKenSolver2Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.freret.KenKenSolver2Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KenKenSolver2.app/KenKenSolver2";
+			};
+			name = Debug;
+		};
+		AFABBC3421A895270033EA9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 95E687C01BE957CA38F4D774 /* Pods-KenKenSolver2Tests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KQYA2A8JRS;
+				INFOPLIST_FILE = KenKenSolver2Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.freret.KenKenSolver2Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KenKenSolver2.app/KenKenSolver2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AFABBC0B21A895260033EA9D /* Build configuration list for PBXProject "KenKenSolver2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFABBC2D21A895270033EA9D /* Debug */,
+				AFABBC2E21A895270033EA9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AFABBC2F21A895270033EA9D /* Build configuration list for PBXNativeTarget "KenKenSolver2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFABBC3021A895270033EA9D /* Debug */,
+				AFABBC3121A895270033EA9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AFABBC3221A895270033EA9D /* Build configuration list for PBXNativeTarget "KenKenSolver2Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFABBC3321A895270033EA9D /* Debug */,
+				AFABBC3421A895270033EA9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AFABBC0821A895260033EA9D /* Project object */;
+}
