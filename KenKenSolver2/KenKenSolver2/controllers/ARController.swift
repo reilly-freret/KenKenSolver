@@ -15,6 +15,12 @@ class ARController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet var targetRect: UIView!
     
+    @IBOutlet var flashOutlet: UISwitch!
+    @IBAction func flashToggle(_ sender: Any) {
+        toggleTorch(flashOutlet.isOn)
+    }
+    
+    
     var isPaused: Bool = true
     var puzzleImage = UIImage()
     
@@ -35,6 +41,7 @@ class ARController: UIViewController, ARSCNViewDelegate {
         isPaused = false
         startRectangleDetection()
         
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -43,6 +50,46 @@ class ARController: UIViewController, ARSCNViewDelegate {
         sceneView.session.pause()
         isPaused = true
         
+    }
+    
+    func toggleTorch(_ on: Bool) {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video)
+            else {return}
+        
+        if device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                
+                if on == true {
+                    device.torchMode = .on // set on
+                } else {
+                    device.torchMode = .off // set off
+                }
+                
+                device.unlockForConfiguration()
+            } catch {
+                print("Torch could not be used")
+            }
+        } else {
+            print("Torch is not available")
+        }
+    }
+    
+    func attemptSolve(_ i: UIImage) -> Bool {
+        var puzzleDict = NSMutableDictionary()
+        OpenCVWrapper.extractGroups(i, puzzleDict)
+        let dim = OpenCVWrapper.getDimension(i)
+        let puzzle = Puzzle.generateFromDict(Int(dim), puzzleDict)
+        print(puzzle.desc)
+        puzzle.prepPoss()
+        if let solved = Solver.solve(puzzle) {
+            solved.generateImage()
+            print("==========\nsuccess\n==========")
+            return true
+        } else {
+            print("==========\nfailure\n==========")
+            return false
+        }
     }
     
     func startRectangleDetection() {
@@ -54,8 +101,15 @@ class ARController: UIViewController, ARSCNViewDelegate {
                     if let results = request.results as? [VNRectangleObservation], let _ = results.first {
                         for o in results {
                             if self.compareToWindow(o) {
-                                self.targetRect.layer.borderColor = UIColor.green.cgColor
-                                Puzzle.image = self.cropToTarget(self.sceneView.snapshot())
+                                let i = self.cropToTarget(self.sceneView.snapshot())
+                                self.view.screenLoading()
+                                DispatchQueue.global(qos: .background).async {
+                                    let t = self.attemptSolve(i)
+                                    DispatchQueue.main.async {
+                                        self.view.screenLoaded()
+                                        self.switchUp(t)
+                                    }
+                                }
                                 self.isPaused = true
                                 return
                             }
@@ -71,6 +125,20 @@ class ARController: UIViewController, ARSCNViewDelegate {
                 try? handler.perform([request])
             }
             self.startRectangleDetection()
+        }
+    }
+    
+    func switchUp(_ t: Bool) {
+        if t {
+            self.targetRect.layer.borderColor = UIColor.green.cgColor
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.navigationController?.popViewController(animated: true)
+            }
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.isPaused = false
+                self.startRectangleDetection()
+            }
         }
     }
     
@@ -112,7 +180,6 @@ class ARController: UIViewController, ARSCNViewDelegate {
         return UIImage(cgImage: image.cgImage!.cropping(to: newFrame)!)
         
     }
-    
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user

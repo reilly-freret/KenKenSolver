@@ -12,9 +12,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OpenCVWrapper : NSObject
--(NSString *)openCVVersionString;
-+(UIImage *)extractGroups:(UIImage *)image;
++(void)extractGroups:(UIImage *)image:(NSMutableDictionary *)dict;
 +(int)getDimension:(UIImage *)image;
++(UIImage *)debugProcessing:(UIImage *)image;
 @end
 
 NS_ASSUME_NONNULL_END

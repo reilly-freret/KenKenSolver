@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2EAFF33C32398A0A26AAB161 /* Pods_KenKenSolver2Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 721128F9772B19549D2BA8B0 /* Pods_KenKenSolver2Tests.framework */; };
 		84165538F54813909421C5DD /* Pods_KenKenSolver2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70EAEF3FD60F51C5032EFA11 /* Pods_KenKenSolver2.framework */; };
+		AF43D13021A8DED900B6C9AE /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = AF43D12F21A8DED900B6C9AE /* tessdata */; };
 		AF5C063D21A89E940054EF22 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AF5C063C21A89E940054EF22 /* OpenCVWrapper.mm */; };
 		AFABBC1421A895260033EA9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFABBC1321A895260033EA9D /* AppDelegate.swift */; };
 		AFABBC1621A895260033EA9D /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AFABBC1521A895260033EA9D /* art.scnassets */; };
@@ -22,6 +23,9 @@
 		AFAC822521A89BFE000143DD /* Puzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC822421A89BFE000143DD /* Puzzle.swift */; };
 		AFAC822721A89CDB000143DD /* LandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC822621A89CDB000143DD /* LandingController.swift */; };
 		AFAC822921A89CEC000143DD /* ARController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC822821A89CEC000143DD /* ARController.swift */; };
+		AFE7F4C621AA5D1F00510AF3 /* Solver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE7F4C521AA5D1F00510AF3 /* Solver.swift */; };
+		AFE7F4C921ABC30500510AF3 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE7F4C821ABC30500510AF3 /* Misc.swift */; };
+		AFE7F4CB21ABD79400510AF3 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE7F4CA21ABD79400510AF3 /* UIImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +45,7 @@
 		7C4B18C33E02120FFA4EE2FD /* Pods-KenKenSolver2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KenKenSolver2Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KenKenSolver2Tests/Pods-KenKenSolver2Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		95E687C01BE957CA38F4D774 /* Pods-KenKenSolver2Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KenKenSolver2Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KenKenSolver2Tests/Pods-KenKenSolver2Tests.release.xcconfig"; sourceTree = "<group>"; };
 		96F10BE7CDD44C7C247551C0 /* Pods-KenKenSolver2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KenKenSolver2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KenKenSolver2/Pods-KenKenSolver2.debug.xcconfig"; sourceTree = "<group>"; };
+		AF43D12F21A8DED900B6C9AE /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tessdata; sourceTree = "<group>"; };
 		AF5C063B21A89E930054EF22 /* KenKenSolver2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KenKenSolver2-Bridging-Header.h"; sourceTree = "<group>"; };
 		AF5C063C21A89E940054EF22 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		AF5C063E21A89EA30054EF22 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
@@ -60,6 +65,9 @@
 		AFAC822421A89BFE000143DD /* Puzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle.swift; sourceTree = "<group>"; };
 		AFAC822621A89CDB000143DD /* LandingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingController.swift; sourceTree = "<group>"; };
 		AFAC822821A89CEC000143DD /* ARController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARController.swift; sourceTree = "<group>"; };
+		AFE7F4C521AA5D1F00510AF3 /* Solver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solver.swift; sourceTree = "<group>"; };
+		AFE7F4C821ABC30500510AF3 /* Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
+		AFE7F4CA21ABD79400510AF3 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				AFABBC1321A895260033EA9D /* AppDelegate.swift */,
+				AF43D12F21A8DED900B6C9AE /* tessdata */,
 				AF5C063A21A89DBB0054EF22 /* wrappers */,
 				AFAC821F21A89BDA000143DD /* controllers */,
 				AFAC821E21A89BD5000143DD /* views */,
@@ -152,6 +161,8 @@
 			isa = PBXGroup;
 			children = (
 				AFAC821B21A89B1B000143DD /* UIView.swift */,
+				AFE7F4CA21ABD79400510AF3 /* UIImage.swift */,
+				AFE7F4C821ABC30500510AF3 /* Misc.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -162,6 +173,7 @@
 				AFAC822021A89BEF000143DD /* Cell.swift */,
 				AFAC822221A89BF7000143DD /* Group.swift */,
 				AFAC822421A89BFE000143DD /* Puzzle.swift */,
+				AFE7F4C521AA5D1F00510AF3 /* Solver.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -280,6 +292,7 @@
 			files = (
 				AFABBC1621A895260033EA9D /* art.scnassets in Resources */,
 				AFABBC2021A895270033EA9D /* LaunchScreen.storyboard in Resources */,
+				AF43D13021A8DED900B6C9AE /* tessdata in Resources */,
 				AFABBC1D21A895270033EA9D /* Assets.xcassets in Resources */,
 				AFABBC1B21A895260033EA9D /* Main.storyboard in Resources */,
 			);
@@ -357,7 +370,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFAC822921A89CEC000143DD /* ARController.swift in Sources */,
+				AFE7F4CB21ABD79400510AF3 /* UIImage.swift in Sources */,
 				AFAC822521A89BFE000143DD /* Puzzle.swift in Sources */,
+				AFE7F4C621AA5D1F00510AF3 /* Solver.swift in Sources */,
+				AFE7F4C921ABC30500510AF3 /* Misc.swift in Sources */,
 				AFAC821C21A89B1B000143DD /* UIView.swift in Sources */,
 				AFABBC1421A895260033EA9D /* AppDelegate.swift in Sources */,
 				AFAC822721A89CDB000143DD /* LandingController.swift in Sources */,

@@ -11,6 +11,56 @@ import UIKit
 
 extension UIView {
     
+    /**
+     Adds the full-frame loading animation to a view.
+     
+     - Important: Use this one only for full-screen loading animations
+     */
+    func screenLoading() {
+        // full loading view
+        let loadingView = UIView(frame: self.frame)
+        loadingView.tag = 69
+        
+        // background bouncing circle
+        let backgroundAnimation = UIView()
+        backgroundAnimation.frame.size = CGSize(width: 100, height: 100)
+        backgroundAnimation.layer.cornerRadius = 50
+        backgroundAnimation.center = loadingView.center
+        backgroundAnimation.backgroundColor = UIColor.white
+        loadingView.addSubview(backgroundAnimation)
+        
+        // blur filter
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = loadingView.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        loadingView.addSubview(blurEffectView)
+        
+        // bouncing circle
+        let loadingAnimation = UIView()
+        loadingAnimation.frame.size = CGSize(width: 100, height: 100)
+        loadingAnimation.layer.cornerRadius = 50
+        loadingAnimation.center = loadingView.center
+        loadingAnimation.backgroundColor = UIColor.white
+        loadingView.addSubview(loadingAnimation)
+        
+        UIView.animate(withDuration: 1, delay: 0, options: [.repeat, .autoreverse], animations: {
+            loadingAnimation.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            backgroundAnimation.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            loadingAnimation.backgroundColor = UIColor.lightGray
+            backgroundAnimation.backgroundColor = UIColor.lightGray
+        })
+        self.addSubview(loadingView)
+        self.bringSubviewToFront(loadingView)
+    }
+    
+    /**
+     Removes a full-frame animation from a view
+     */
+    func screenLoaded() {
+        self.viewWithTag(69)?.removeFromSuperview()
+    }
+    
     func convertFromCamera(_ point: CGPoint) -> CGPoint {
         let orientation = UIApplication.shared.statusBarOrientation
         

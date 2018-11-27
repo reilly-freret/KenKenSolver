@@ -89,6 +89,13 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7GD-Wj-hE0">
+                                <rect key="frame" x="163" y="550" width="49" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="flashToggle:" destination="BV1-FR-VrT" eventType="valueChanged" id="C7i-6A-ktB"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -103,6 +110,7 @@
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
                     </view>
                     <connections>
+                        <outlet property="flashOutlet" destination="7GD-Wj-hE0" id="bCg-hH-ebi"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="G2D-pq-xEL"/>
                         <outlet property="targetRect" destination="TpY-UR-fuP" id="UE0-A3-eQT"/>
                     </connections>

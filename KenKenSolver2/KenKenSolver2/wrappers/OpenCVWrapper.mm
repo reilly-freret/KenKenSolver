@@ -15,12 +15,8 @@ using namespace std;
 
 @implementation OpenCVWrapper
 
--(NSString *) openCVVersionString
-{
-    return [NSString stringWithFormat:@"OpenCV Version %s", CV_VERSION];
-}
-
-+(UIImage *)extractGroups:(UIImage *)image
+//+(UIImage *)extractGroups:(UIImage *)image
++(void)extractGroups:(UIImage *)image :(NSMutableDictionary *)dict;
 {
     Mat underlay = [self preprocessText:image];
     cvtColor(underlay, underlay, CV_GRAY2RGB);
@@ -32,16 +28,16 @@ using namespace std;
     
     Mat mat = Mat(i.size(), CV_8UC1);
     
-    GaussianBlur(i, i, cv::Size(5,5), 0);
+    GaussianBlur(i, i, cv::Size(7,7), 0);
     
-    adaptiveThreshold(i, mat, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 5, 2);
+//    adaptiveThreshold(i, mat, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 5, 5);
+//    image = MatToUIImage(mat);
     
-    bitwise_not(mat, mat);
+    threshold(i, mat, 0, 255, CV_THRESH_BINARY_INV | CV_THRESH_OTSU);
     
-    Mat kernel = (Mat_<uchar>(3,3) << 0,1,0,1,1,1,0,1,0);
-    
-    dilate(mat, mat, kernel);
-    
+    Mat threeKernel = getStructuringElement(MORPH_CROSS, cv::Size(3,3));
+    Mat fiveKernel = getStructuringElement(MORPH_CROSS, cv::Size(5,5));
+    morphologyEx(mat, mat, MORPH_OPEN, fiveKernel);
     
     int count = 0;
     int max = -1;
@@ -81,10 +77,8 @@ using namespace std;
         }
     }
     
-    Mat erosionKernel = (Mat_<uchar>(7,7) << 0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,1,1,1,1,1,1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0);
-    
-    erode(mat, mat, erosionKernel);
-    dilate(mat, mat, kernel);
+    morphologyEx(mat, mat, MORPH_CLOSE, fiveKernel);
+    erode(mat, mat, threeKernel);
     
     vector<vector<cv::Point>> contours;
     vector<Vec4i> hierarchy;
@@ -101,8 +95,9 @@ using namespace std;
     int dimension = [self getDimension:image];
     
     for (int i = 0; i < contours.size(); i++) {
+        
         if (contourArea(contours[i]) < 500) continue;
-        if (contourArea(contours[i]) > 250000) {
+        if (contourArea(contours[i]) > 200000) {
             bigBox = boundingRect(contours[i]);
             rectangle(underlay, bigBox.tl(), bigBox.br(), CV_RGB(0, 0, 0));
             continue;
@@ -112,27 +107,31 @@ using namespace std;
         m = moments(contours[i], false);
         contourCenters.push_back(Point2f(m.m10 / m.m00, m.m01 / m.m00));
         topCorners.push_back([self getTopCorner:contours[i]]);
-    }
-    
-    for (int i = 0; i < filteredContours.size(); i++) {
-        Scalar color = CV_RGB(rng.uniform(10, 200), rng.uniform(10, 200), rng.uniform(10, 200));
-        drawContours(underlay, filteredContours, i, color);
-        circle(underlay, contourCenters[i], 4, CV_RGB(255, 0, 0), -1);
-        circle(underlay, topCorners[i], 4, CV_RGB(0, 0, 255), -1);
+        
     }
     
     vector<vector<cv::Point>> k = [self getCoordinates:filteredContours :areas :topCorners :contourCenters :dimension :bigBox];
     
-    //return k;
+    for (int i = 0; i < k.size(); i++) {
+        NSMutableArray *currCords = [[NSMutableArray alloc] init];
+        cv::Rect r(topCorners[i].x - 5, topCorners[i].y - 5, bigBox.width / dimension, (bigBox.height / dimension) / 2);
+        cv::Mat cropped = underlay(r);
+        [currCords addObject:MatToUIImage(cropped)];
+        for (int j = 0; j < k[i].size(); j++) {
+            NSMutableArray *thisCord = [[NSMutableArray alloc] init];
+            NSNumber *thisX = [NSNumber numberWithInteger:k[i][j].x];
+            NSNumber *thisY = [NSNumber numberWithInteger:k[i][j].y];
+            [thisCord addObject:thisX];
+            [thisCord addObject:thisY];
+            [currCords addObject:thisCord];
+        }
+        [dict setObject:currCords forKey:[NSNumber numberWithInt:i]];
+    }
     
-    UIImage *newImg = MatToUIImage(underlay);
-    
-    return newImg;
+    return;
 }
 
 +(vector<vector<cv::Point>>)getCoordinates:(vector<vector<cv::Point>>)contours :(vector<double>)areas :(vector<cv::Point>)topCorners :(vector<Point2f>)centers :(int)dim :(cv::Rect)bigBox {
-    cout << "big box area: " << bigBox.area() << " width: " << bigBox.width << endl;
-    cout << "dim: " << dim << endl;
     
     vector<vector<cv::Point>> allCords;
     
@@ -141,12 +140,13 @@ using namespace std;
         
         int xcord = (topCorners[i].x - bigBox.x + (bigBox.width / (dim * 2))) / (bigBox.width / dim);
         int ycord = (topCorners[i].y - bigBox.y + (bigBox.height / (dim * 2))) / (bigBox.height / dim);
-        int numCells = int(areas[i] * 1.3) / (bigBox.area() / (dim * dim));
+        int numCells = int(areas[i] * 1.2) / (bigBox.area() / (dim * dim));
+        
+        cout << xcord << "," << ycord << " - " << numCells << " cells" << endl;
         
         // if we're outside the bounds of the puzzle, quit like fuq
         if (numCells < 1 || xcord < 0 || xcord >= dim || ycord < 0 || ycord >= dim) {
             allCords.clear();
-            cout << "fuck" << endl;
             break;
         }
         
@@ -154,11 +154,6 @@ using namespace std;
         cv::Rect bounds = boundingRect(contours[i]); // current group bounding rectangle
         double ratio = double(areas[i]) / double(bounds.area()); // ratio between area of group and area of bounding rectangle
         cv::Point boundsMid = cv::Point(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
-        
-        cout << "x: " << xcord << " y: " << ycord << endl;
-        cout << "cells: " << numCells << endl;
-        cout << "b.x: " << bounds.x << " b.y: " << bounds.y << endl;
-        cout << "ratio: " << ratio << "\n" << endl;
         
         // push back the first cell
         cords.push_back(cv::Point(xcord, ycord));
@@ -174,7 +169,6 @@ using namespace std;
                 cords.push_back(cv::Point(xcord + 1, ycord + 1));
             } else {
                 bool t = abs(topCorners[i].y - centers[i].y) > abs(topCorners[i].x - centers[i].x);
-                cout << "rectangle, t = " << t << "\n" << endl;
                 [self pushStack:(numCells - 1) :t :cords];
             }
             // unfortunately, need special cases for the rest, I think
@@ -188,14 +182,10 @@ using namespace std;
                 bool b = centers[i].x > boundsMid.x && centers[i].y < boundsMid.y;
                 bool c = centers[i].x > boundsMid.x && centers[i].y > boundsMid.y;
                 bool d = centers[i].x < boundsMid.x && centers[i].y > boundsMid.y;
-                cout << "case 2, 3 cells" << endl;
-                cout << centers[i].x << " " << centers[i].y << " " << boundsMid.x << " " << boundsMid.y << " " << endl;
-                cout << a << " " << b << " " << c << " " << d << "\n" << endl;
                 cords.push_back(cv::Point(xcord + int(b) - int(c) + int(d), ycord + 1));
             } else if (numCells == 4) {
                 vector<cv::Point> morph;
                 approxPolyDP(contours[i], morph, 0.05 * arcLength(contours[i], true), true);
-                cout << "morph size: " << morph.size() << endl;
                 if (morph.size() > 6) { // could probably simplify this with math but fuuuuck that
                     if (double(bounds.width) / double(bounds.height) > 1) {
                         cords.push_back(cv::Point(xcord + 1, ycord + 1));
@@ -217,9 +207,7 @@ using namespace std;
                     }
                 } else {
                     bool a = centers[i].x < boundsMid.x;
-                    cout << "a: " << a << endl;
-                    cout << "width/height: " << bounds.width / bounds.height << endl;
-                    bool b = 2 * int(a) - 1;
+                    int b = 2 * int(a) - 1;
                     if (double(bounds.width) / double(bounds.height) > 1) {
                         if (centers[i].y > boundsMid.y) {
                             for (int i = 0; i < 3; i++) {
@@ -245,14 +233,6 @@ using namespace std;
             }
         }
         allCords.push_back(cords);
-    }
-    cout << "\n" << allCords.size() << "\n" << endl;
-    for (int i = 0; i < allCords.size(); i++) {
-        cout << "cell " << i << ": ";
-        for (int j = 0; j < allCords[i].size(); j ++) {
-            cout << "(" << allCords[i][j].x << "," << allCords[i][j].y << ") ";
-        }
-        cout << endl;
     }
     return allCords;
 }
@@ -302,6 +282,13 @@ using namespace std;
     return (count - 1);
 }
 
++(UIImage *)debugProcessing:(UIImage *)image {
+    
+    Mat lol = [self preprocessText:image];
+    
+    return MatToUIImage(lol);
+}
+
 +(Mat)preprocessText:(UIImage *)image {
     Mat i;
     UIImageToMat(image, i);
@@ -310,7 +297,9 @@ using namespace std;
     
     Mat mat = Mat(i.size(), CV_8UC1);
     
-    adaptiveThreshold(i, mat, 255, CV_ADAPTIVE_THRESH_MEAN_C, CV_THRESH_BINARY_INV, 5, 7);
+    adaptiveThreshold(i, mat, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV, 11, 11);
+    
+    Mat kernel = (Mat_<uchar>(3,3) << 0,1,0,1,1,1,0,1,0);
     
     vector<vector<cv::Point>> contours;
     vector<Vec4i> hierarchy;
@@ -318,11 +307,11 @@ using namespace std;
     
     for (int i = 0; i < contours.size(); i++) {
         cv::Point& p = contours[i][0];
-        if (arcLength(contours[i], true) > 120 && mat.ptr(p.y)[p.x] >= 128) {
+        if (arcLength(contours[i], true) > 200 && mat.ptr(p.y)[p.x] >= 128) {
             floodFill(mat, p, CV_RGB(0, 0, 0));
         }
     }
-    
+
     for (int y = 0; y < mat.size().height; y++) {
         uchar *row = mat.ptr(y);
         for (int x = 0; x < mat.size().width; x++) {
@@ -340,6 +329,9 @@ using namespace std;
         }
     }
     
+//    erode(mat, mat, kernel);
+//    dilate(mat, mat, kernel);
+
     bitwise_not(mat, mat);
     
     return mat;
