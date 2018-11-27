@@ -91,44 +91,48 @@ class Puzzle {
     }
     
     static func sample() -> Puzzle {
-        let p = Puzzle(6)
+        let p = Puzzle(8)
         
-        var group = Group("2-")
+        var group = Group("24x")
         var cell = Cell(NSMutableArray(array: [0,0]))
         group.cells.append(cell)
-        cell = Cell(NSMutableArray(array: [0,1]))
-        group.cells.append(cell)
-        p.groups.append(group)
-        
-        group = Group("2/")
         cell = Cell(NSMutableArray(array: [1,0]))
         group.cells.append(cell)
+        p.groups.append(group)
+        
+        group = Group("6x")
         cell = Cell(NSMutableArray(array: [2,0]))
         group.cells.append(cell)
-        p.groups.append(group)
-        
-        group = Group("11+")
         cell = Cell(NSMutableArray(array: [3,0]))
-        group.cells.append(cell)
-        cell = Cell(NSMutableArray(array: [4,0]))
-        group.cells.append(cell)
-        p.groups.append(group)
-        
-        group = Group("1")
-        cell = Cell(NSMutableArray(array: [5,0]))
-        group.cells.append(cell)
-        p.groups.append(group)
-        
-        group = Group("120x")
-        cell = Cell(NSMutableArray(array: [1,1]))
-        group.cells.append(cell)
-        cell = Cell(NSMutableArray(array: [2,1]))
         group.cells.append(cell)
         cell = Cell(NSMutableArray(array: [3,1]))
         group.cells.append(cell)
         p.groups.append(group)
         
-        group = Group("30x")
+        group = Group("6+")
+        cell = Cell(NSMutableArray(array: [4,0]))
+        group.cells.append(cell)
+        cell = Cell(NSMutableArray(array: [4,1]))
+        group.cells.append(cell)
+        p.groups.append(group)
+        
+        group = Group("15+")
+        cell = Cell(NSMutableArray(array: [5,0]))
+        group.cells.append(cell)
+        cell = Cell(NSMutableArray(array: [6,0]))
+        group.cells.append(cell)
+        p.groups.append(group)
+        
+        group = Group("12+")
+        cell = Cell(NSMutableArray(array: [7,0]))
+        group.cells.append(cell)
+        cell = Cell(NSMutableArray(array: [7,1]))
+        group.cells.append(cell)
+        cell = Cell(NSMutableArray(array: [6,1]))
+        group.cells.append(cell)
+        p.groups.append(group)
+        
+        group = Group("18+")
         cell = Cell(NSMutableArray(array: [4,1]))
         group.cells.append(cell)
         cell = Cell(NSMutableArray(array: [5,1]))
