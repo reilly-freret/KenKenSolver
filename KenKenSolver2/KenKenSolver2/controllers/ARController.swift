@@ -22,6 +22,7 @@ class ARController: UIViewController, ARSCNViewDelegate {
     
     
     var isPaused: Bool = true
+    var isSolving: Bool = false
     var puzzleImage = UIImage()
     
     override func viewDidLoad() {
@@ -39,6 +40,7 @@ class ARController: UIViewController, ARSCNViewDelegate {
         let configuration = ARWorldTrackingConfiguration()
         sceneView.session.run(configuration)
         isPaused = false
+        isSolving = false
         startRectangleDetection()
         
         
@@ -79,17 +81,16 @@ class ARController: UIViewController, ARSCNViewDelegate {
         var puzzleDict = NSMutableDictionary()
         OpenCVWrapper.extractGroups(i, puzzleDict)
         let dim = OpenCVWrapper.getDimension(i)
-        let puzzle = Puzzle.generateFromDict(Int(dim), puzzleDict)
-        print(puzzle.desc)
-        puzzle.prepPoss()
-        if let solved = Solver.solve(puzzle) {
-            solved.generateImage()
-            print("==========\nsuccess\n==========")
+        let values = Puzzle.generateStructure(Int(dim), puzzleDict)
+        if let v = measure(name: "main", { Solver.solve(values) } ) {
+            let solution = Solver.printStep(v)
+            print(solution)
+            var img = UIImage(color: UIColor.white, size: CGSize(width: 200, height: 200))
+            img = img?.textOnImage(withText: solution, atPoint: CGPoint(x: 0, y: 0))
+            Puzzle.resultImage = img
             return true
-        } else {
-            print("==========\nfailure\n==========")
-            return false
         }
+        return false
     }
     
     func startRectangleDetection() {
@@ -101,16 +102,20 @@ class ARController: UIViewController, ARSCNViewDelegate {
                     if let results = request.results as? [VNRectangleObservation], let _ = results.first {
                         for o in results {
                             if self.compareToWindow(o) {
+                                
+                                if self.isSolving { return }
+                                self.isSolving = true
+                                self.isPaused = true
                                 let i = self.cropToTarget(self.sceneView.snapshot())
                                 self.view.screenLoading()
                                 DispatchQueue.global(qos: .background).async {
                                     let t = self.attemptSolve(i)
                                     DispatchQueue.main.async {
                                         self.view.screenLoaded()
+                                        self.isSolving = false
                                         self.switchUp(t)
                                     }
                                 }
-                                self.isPaused = true
                                 return
                             }
                         }

@@ -23,6 +23,7 @@
 		AFAC822521A89BFE000143DD /* Puzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC822421A89BFE000143DD /* Puzzle.swift */; };
 		AFAC822721A89CDB000143DD /* LandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC822621A89CDB000143DD /* LandingController.swift */; };
 		AFAC822921A89CEC000143DD /* ARController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC822821A89CEC000143DD /* ARController.swift */; };
+		AFCAFD9A21AF5F4F008AE2B3 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCAFD9921AF5F4F008AE2B3 /* Query.swift */; };
 		AFE7F4C621AA5D1F00510AF3 /* Solver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE7F4C521AA5D1F00510AF3 /* Solver.swift */; };
 		AFE7F4C921ABC30500510AF3 /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE7F4C821ABC30500510AF3 /* Misc.swift */; };
 		AFE7F4CB21ABD79400510AF3 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE7F4CA21ABD79400510AF3 /* UIImage.swift */; };
@@ -65,6 +66,7 @@
 		AFAC822421A89BFE000143DD /* Puzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle.swift; sourceTree = "<group>"; };
 		AFAC822621A89CDB000143DD /* LandingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingController.swift; sourceTree = "<group>"; };
 		AFAC822821A89CEC000143DD /* ARController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARController.swift; sourceTree = "<group>"; };
+		AFCAFD9921AF5F4F008AE2B3 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		AFE7F4C521AA5D1F00510AF3 /* Solver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Solver.swift; sourceTree = "<group>"; };
 		AFE7F4C821ABC30500510AF3 /* Misc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		AFE7F4CA21ABD79400510AF3 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				AFAC822221A89BF7000143DD /* Group.swift */,
 				AFAC822421A89BFE000143DD /* Puzzle.swift */,
 				AFE7F4C521AA5D1F00510AF3 /* Solver.swift */,
+				AFCAFD9921AF5F4F008AE2B3 /* Query.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				AFE7F4CB21ABD79400510AF3 /* UIImage.swift in Sources */,
 				AFAC822521A89BFE000143DD /* Puzzle.swift in Sources */,
 				AFE7F4C621AA5D1F00510AF3 /* Solver.swift in Sources */,
+				AFCAFD9A21AF5F4F008AE2B3 /* Query.swift in Sources */,
 				AFE7F4C921ABC30500510AF3 /* Misc.swift in Sources */,
 				AFAC821C21A89B1B000143DD /* UIView.swift in Sources */,
 				AFABBC1421A895260033EA9D /* AppDelegate.swift in Sources */,
@@ -552,8 +556,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.freret.KenKenSolver2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "KenKenSolver2/wrappers/KenKenSolver2-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -8,28 +8,46 @@
 
 import Foundation
 
-class Solver {
+final class Solver {
     
-    static func solve(_ p: Puzzle) -> Puzzle? {
+    static func solve(_ values: [[Dictionary<String, Any>]]) -> [[Dictionary<String, Any>]]? {
         
-        guard let (x, y) = p.getMostSolved() else { return p }
-        
-        for possibility in p.groups[x].cells[y].possibilities {
-            if self.applyConstraints(p, p.groups[x], p.groups[x].cells[y], possibility) {
-                
-                let nextStep = measure(name: "copy", { p.copy() as! Puzzle } )
-                
-                nextStep.groups[x].cells[y].currentVal = possibility
-                
-                let n = nextStep.groups[x].cells[y].x
-                let m = nextStep.groups[x].cells[y].y
-                for group in nextStep.groups {
-                    for cell in group.cells {
-                        if ((cell.x == n) != (cell.y == m)) {
-                            cell.possibilities.remove(possibility)
-                        }
+        func getMostSolved(_ values: [[Dictionary<String, Any>]]) -> (Int, Int)? {
+            var min = 50
+            var cords: (Int, Int)? = nil
+            for i in 0 ..< values.count {
+                for j in 0 ..< values[i].count {
+                    let poss = values[i][j]["poss"] as! Set<Int>
+                    let count = poss.count
+                    if count != 0 && count < min && values[i][j]["currVal"] as! Int == 0 {
+                        min = count
+                        cords = (i, j)
                     }
                 }
+            }
+            return cords
+        }
+        
+        guard let (y, x) = measure(name: "getMostSolved", { getMostSolved(values) } ) else { return values }
+        
+        let currPoss = values[y][x]["poss"] as! Set<Int>
+        for testVal in currPoss {
+            
+            if measure(name: "applyConstraints", { self.applyConstraints(values, (y, x), testVal) } ) {
+                
+                var nextStep = values
+                
+                measure(name: "assignment", { nextStep[y][x]["currVal"] = testVal } )
+                
+                measure(name: "innerLoop", {
+                    for i in 0 ..< values.count {
+                        let first = (nextStep[y][i]["poss"] as! Set<Int>)
+                        let second = (nextStep[i][x]["poss"] as! Set<Int>)
+                        if first.contains(testVal) { nextStep[y][i]["poss"] = first.subtracting([testVal]) }
+                        if second.contains(testVal) { nextStep[i][x]["poss"] = second.subtracting([testVal]) }
+                    }
+                })
+                
                 if let newPuzzle = self.solve(nextStep) {
                     return newPuzzle
                 }
@@ -39,27 +57,20 @@ class Solver {
         return nil
     }
     
-    static func applyConstraints(_ p: Puzzle, _ g: Group, _ c: Cell, _ v: Int) -> Bool {
-        let x = c.x
-        let y = c.y
-        for group in p.groups {
-            for cell in group.cells {
-                if ((cell.x == x) != (cell.y == y)) && cell.currentVal == v {
-                    return false
-                }
-            }
-        }
+    static func applyConstraints(_ values: [[Dictionary<String, Any>]], _ target: (Int, Int), _ v: Int) -> Bool {
         
-        return self.checkMath(g, c, v)
+        let checkCross = !(any((0 ..< values.count).map { values[target.0][$0]["currVal"] as! Int == v || values[$0][target.1]["currVal"] as! Int == v}))
+        
+        return checkCross && checkMath(values, target, v)
+        
     }
     
-    static func checkMath(_ g: Group, _ c: Cell, _ v: Int) -> Bool {
+    static func checkMath(_ values: [[Dictionary<String, Any>]], _ target: (Int, Int), _ v: Int) -> Bool {
         
-        func canMakeSum(_ t: Int, _ sets: [[Int]]?) -> Bool {
-            guard let s = sets else { return t == 0 }
-            let head = s[0]
-            var tail: [[Int]]? = Array(s.dropFirst())
-            if tail!.count == 0 { tail = nil }
+        func canMakeSum(_ t: Int, _ sets: [[Int]]) -> Bool {
+            if sets.count == 1 { return sets[0].contains(t) }
+            let head = sets[0]
+            let tail: [[Int]] = Array(sets.dropFirst())
             return any(head.filter { $0 <= t }.map { canMakeSum(t - $0, tail) })
         }
         
@@ -71,55 +82,78 @@ class Solver {
             return any(head.filter { (t % $0) == 0 }.map { canMakeProd(t / $0, tail) })
         }
         
-        let x = c.x
-        let y = c.y
-        switch g.operation {
+        
+        guard let targetGroupDict = Puzzle.groups.first(where: { $0.key == values[target.0][target.1]["group"] as! Int }) else { print("fuq"); return false }
+        let targetGroup = targetGroupDict.value
+        
+        switch targetGroup.operation {
         case "+":
             var sets = [[Int]]()
-            for cell in g.cells {
-                if cell.x == x && cell.y == y {
-                    sets.append([v])
-                } else {
-                    if let val = cell.currentVal {
-                        sets.append([val])
+            sets.append([v])
+            for i in 0 ..< values.count {
+                for j in 0 ..< values.count {
+                    if i == target.0 && j == target.1 { continue }
+                    if values[i][j]["group"] as! Int != targetGroupDict.key { continue }
+                    if let neighborVal = values[i][j]["currVal"] as? Int, neighborVal != 0 {
+                        sets.append([neighborVal])
                     } else {
-                        sets.append(Array(cell.possibilities))
+                        sets.append(Array(values[i][j]["poss"] as! Set<Int>))
                     }
                 }
             }
-            return canMakeSum(g.constant, sets)
+            return canMakeSum(targetGroup.constant, sets)
         case "-":
-            for cell in g.cells {
-                if let other = cell.currentVal {
-                    return v - other == g.constant || other - v == g.constant
+            for i in 0 ..< values.count {
+                for j in 0 ..< values.count {
+                    if i == target.0 && j == target.1 { continue }
+                    if values[i][j]["group"] as! Int != targetGroupDict.key { continue }
+                    if let neighborVal = values[i][j]["currVal"] as? Int, neighborVal != 0 {
+                        return v - neighborVal == targetGroup.constant || neighborVal - v == targetGroup.constant
+                    }
                 }
             }
             return true
         case "/":
-            for cell in g.cells {
-                if let other = cell.currentVal {
-                    return v / other == g.constant || other / v == g.constant
+            for i in 0 ..< values.count {
+                for j in 0 ..< values.count {
+                    if i == target.0 && j == target.1 { continue }
+                    if values[i][j]["group"] as! Int != targetGroupDict.key { continue }
+                    if let neighborVal = values[i][j]["currVal"] as? Int, neighborVal != 0 {
+                        return v / neighborVal == targetGroup.constant || neighborVal / v == targetGroup.constant
+                    }
                 }
             }
             return true
         case "x":
             var sets = [[Int]]()
-            for cell in g.cells {
-                if cell.x == x && cell.y == y {
-                    sets.append([v])
-                } else {
-                    if let val = cell.currentVal {
-                        sets.append([val])
+            sets.append([v])
+            for i in 0 ..< values.count {
+                for j in 0 ..< values.count {
+                    if i == target.0 && j == target.1 { continue }
+                    if values[i][j]["group"] as! Int != targetGroupDict.key { continue }
+                    if let neighborVal = values[i][j]["currVal"] as? Int, neighborVal != 0 {
+                        sets.append([neighborVal])
                     } else {
-                        sets.append(Array(cell.possibilities))
+                        sets.append(Array(values[i][j]["poss"] as! Set<Int>))
                     }
                 }
             }
-            return canMakeProd(g.constant, sets)
+            return canMakeProd(targetGroup.constant, sets)
         default:
             return true
         }
         
+    }
+    
+    static func printStep(_ values: [[Dictionary<String, Any>]]) -> String {
+        var s = ""
+        for row in values {
+            for cell in row {
+                s += String(cell["currVal"] as! Int) + " "
+            }
+            s += "\n"
+        }
+        return s
     }
     
 }

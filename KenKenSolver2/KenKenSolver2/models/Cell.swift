@@ -8,12 +8,10 @@
 
 import Foundation
 
-class Cell: Comparable {
+final class Cell: Comparable {
     
     var x: Int
     var y: Int
-    var possibilities = Set<Int>()
-    var currentVal: Int? = nil
     
     var desc: String {
         return " \(letters[x]!)\(y), "
@@ -24,13 +22,6 @@ class Cell: Comparable {
     init(_ cords: NSMutableArray) {
         self.x = cords[0] as! Int
         self.y = cords[1] as! Int
-    }
-    
-    func copy(with zone: NSZone? = nil) -> Any {
-        let cell = Cell(NSMutableArray(array: [self.x, self.y]))
-        cell.possibilities = self.possibilities
-        cell.currentVal = self.currentVal
-        return cell
     }
     
 }
@@ -46,8 +37,4 @@ func < (lhs: Cell, rhs: Cell) -> Bool {
 
 func == (lhs: Cell, rhs: Cell) -> Bool {
     return lhs.x == rhs.x && lhs.y == lhs.y
-}
-
-func + (lhs: Int, rhs: Cell) -> Int {
-    return lhs + (rhs.currentVal ?? 0)
 }

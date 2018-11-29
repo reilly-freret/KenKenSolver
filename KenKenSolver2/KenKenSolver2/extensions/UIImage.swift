@@ -24,7 +24,7 @@ public extension UIImage {
     }
     
     func textOnImage(withText text: String, atPoint point: CGPoint) -> UIImage {
-        let textColor = UIColor.white
+        let textColor = UIColor.black
         let textFont = UIFont(name: "Helvetica Bold", size: 40)!
         
         let scale = UIScreen.main.scale

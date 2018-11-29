@@ -1,10 +1,14 @@
-var first = [[0,1],[2,3]]
-var second = first
+let dim = 3
 
-print(first)
-print(second)
+var valArray = [[Dictionary<String, Any>]]()
+var initialRow = [Dictionary<String, Any>]()
+for i in 0 ..< dim {
+    initialRow.append(["currVal": 0, "poss": [], "group": 0])
+}
+for i in 0 ..< dim {
+    valArray.append(initialRow)
+}
 
-second[0][0] = 5
+valArray[0][0]["currVal"] = 4
 
-print(first)
-print(second)
+valArray.map { print($0)}

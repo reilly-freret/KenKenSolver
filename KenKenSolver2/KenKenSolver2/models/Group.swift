@@ -8,21 +8,14 @@
 
 import Foundation
 
-class Group {
+final class Group {
     
     var operation: String
     var constant: Int
     var cells: [Cell]
     
-    var desc: String {
-        var s = "\(operation) \(constant) "
-        for c in cells {
-            s += c.desc
-        }
-        return s
-    }
-    
     init(_ text: String) {
+        
         self.cells = []
         
         let t = text.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "÷", with: "/")
@@ -45,49 +38,33 @@ class Group {
                 return
             }
         }
-        self.constant = -1
+        self.constant = 1
         self.operation = "?"
+        
     }
     
-    func initialPoss(_ dim: Int) {
+    func initialPoss(_ dim: Int) -> Set<Int> {
+        if constant == 0 { return Set() }
         switch operation {
         case "=":
-            let _ = cells.map { $0.possibilities.insert(constant) }
-            break;
+            return Set([constant])
         case "+":
             let range = constant <= dim ? (1 ... constant - 1) : (1 ... dim)
-            for i in range {
-                let _ = cells.map { $0.possibilities.insert(i) }
-            }
-            break;
+            return Set(range)
         case "-":
-            let lrange = (1 ... dim - constant)
-            let urange = (constant + 1 ... dim)
-            for i in lrange {
-                let _ = cells.map { $0.possibilities.insert(i) }
+            if constant < dim {
+                let lrange = (1 ... dim - constant)
+                let urange = (constant + 1 ... dim)
+                return Set(lrange).union(urange)
             }
-            for i in urange {
-                let _ = cells.map { $0.possibilities.insert(i) }
-            }
-            break;
+            return Set(1 ... dim)
         case "x":
-            for i in (1 ... dim) {
-                if constant % i == 0 {
-                    let _ = cells.map { $0.possibilities.insert(i) }
-                }
-            }
-            break;
+            return Set((1 ... dim).filter { constant % $0 == 0 }) // numbers between 1 and dimension (inclusive) that divide the constant with no remainder
         default:
-            for i in (1 ... dim / constant) {
-                let _ = cells.map { $0.possibilities.insert(i); $0.possibilities.insert(i * constant) }
-            }
+            let range = constant > dim ? 1 ... dim : 1 ... dim / constant
+            return Set(range).union(range.map { $0 * constant }) 
         }
-    }
-    
-    func copy(with zone: NSZone? = nil) -> Any {
-        let g = Group(String(self.constant) + self.operation)
-        g.cells = self.cells.map { $0.copy() as! Cell }
-        return g
+        
     }
     
 }

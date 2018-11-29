@@ -19,21 +19,20 @@ class LandingController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        solveSample(UIImage(named: "6x6.exp1")!)
+//        solveSample(UIImage(named: "6x6.exp0")!)
+//        solveSample(UIImage(named: "6x6.exp1")!)
+//        solveSample(UIImage(named: "8x8.exp1")!)
     }
     
     func solveSample(_ i: UIImage) {
         var puzzleDict = NSMutableDictionary()
         OpenCVWrapper.extractGroups(i, puzzleDict)
         let dim = OpenCVWrapper.getDimension(i)
-        let puzzle = Puzzle.generateFromDict(Int(dim), puzzleDict)
-        print(puzzle.desc)
-        puzzle.prepPoss()
-        if let p = measure(name: "main", { Solver.solve(puzzle) }) {
-            print("Success!")
-            print(p.formatted)
+        let values = Puzzle.generateStructure(Int(dim), puzzleDict)
+        if let v = measure({ Solver.solve(values) }){
+            print(Solver.printStep(v))
         } else {
-            print("Failure")
+            print("big failure")
         }
     }
     

@@ -28,16 +28,17 @@ using namespace std;
     
     Mat mat = Mat(i.size(), CV_8UC1);
     
-    GaussianBlur(i, i, cv::Size(7,7), 0);
-    
-//    adaptiveThreshold(i, mat, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 5, 5);
-//    image = MatToUIImage(mat);
-    
-    threshold(i, mat, 0, 255, CV_THRESH_BINARY_INV | CV_THRESH_OTSU);
-    
+//    GaussianBlur(i, i, cv::Size(9,9), 0);
+//
+//    threshold(i, mat, 0, 255, CV_THRESH_BINARY_INV | CV_THRESH_OTSU);
+//
     Mat threeKernel = getStructuringElement(MORPH_CROSS, cv::Size(3,3));
-    Mat fiveKernel = getStructuringElement(MORPH_CROSS, cv::Size(5,5));
-    morphologyEx(mat, mat, MORPH_OPEN, fiveKernel);
+//    Mat fiveKernel = getStructuringElement(MORPH_CROSS, cv::Size(5,5));
+//    morphologyEx(mat, mat, MORPH_OPEN, fiveKernel);
+
+    GaussianBlur(i, i, cv::Size(19,19), 0);
+    
+    adaptiveThreshold(i, mat, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV, 5, 2);
     
     int count = 0;
     int max = -1;
@@ -77,8 +78,8 @@ using namespace std;
         }
     }
     
-    morphologyEx(mat, mat, MORPH_CLOSE, fiveKernel);
-    erode(mat, mat, threeKernel);
+    morphologyEx(mat, mat, MORPH_CLOSE, threeKernel);
+//    erode(mat, mat, threeKernel);
     
     vector<vector<cv::Point>> contours;
     vector<Vec4i> hierarchy;
@@ -131,6 +132,10 @@ using namespace std;
     return;
 }
 
++(bool)inRange:(unsigned)low :(unsigned)high :(unsigned)x {
+    return ((x - low) <= (high - low));
+}
+
 +(vector<vector<cv::Point>>)getCoordinates:(vector<vector<cv::Point>>)contours :(vector<double>)areas :(vector<cv::Point>)topCorners :(vector<Point2f>)centers :(int)dim :(cv::Rect)bigBox {
     
     vector<vector<cv::Point>> allCords;
@@ -138,17 +143,17 @@ using namespace std;
     // damn most of this could probably be optimized with a transposition
     for (int i = 0; i < contours.size(); i++) {
         
-        int xcord = (topCorners[i].x - bigBox.x + (bigBox.width / (dim * 2))) / (bigBox.width / dim);
-        int ycord = (topCorners[i].y - bigBox.y + (bigBox.height / (dim * 2))) / (bigBox.height / dim);
+        int xcord = (topCorners[i].x - bigBox.x + (bigBox.width / (dim * 1.8))) / (bigBox.width / dim);
+        int ycord = (topCorners[i].y - bigBox.y + (bigBox.height / (dim * 1.8))) / (bigBox.height / dim);
         int numCells = int(areas[i] * 1.2) / (bigBox.area() / (dim * dim));
-        
-        cout << xcord << "," << ycord << " - " << numCells << " cells" << endl;
         
         // if we're outside the bounds of the puzzle, quit like fuq
         if (numCells < 1 || xcord < 0 || xcord >= dim || ycord < 0 || ycord >= dim) {
             allCords.clear();
             break;
         }
+        
+        cout << "cells: " << numCells << endl;
         
         vector<cv::Point> cords; // current group coordinates
         cv::Rect bounds = boundingRect(contours[i]); // current group bounding rectangle
@@ -184,27 +189,53 @@ using namespace std;
                 bool d = centers[i].x < boundsMid.x && centers[i].y > boundsMid.y;
                 cords.push_back(cv::Point(xcord + int(b) - int(c) + int(d), ycord + 1));
             } else if (numCells == 4) {
+                cout << "\nHERHEERE\n" << endl;
                 vector<cv::Point> morph;
-                approxPolyDP(contours[i], morph, 0.05 * arcLength(contours[i], true), true);
+                approxPolyDP(contours[i], morph, 0.03 * arcLength(contours[i], true), true);
+                cout << morph << endl;
                 if (morph.size() > 6) { // could probably simplify this with math but fuuuuck that
-                    if (double(bounds.width) / double(bounds.height) > 1) {
-                        cords.push_back(cv::Point(xcord + 1, ycord + 1));
-                        if (topCorners[i].x > bounds.x + 20) {
+                    cout << "\n========\nhere!\n========\n" << endl;
+                    if ([self inRange:boundsMid.x - 5 :boundsMid.x + 5 :centers[i].x] && [self inRange:boundsMid.y - 5 :boundsMid.y + 5 :centers[i].y]) {
+                        if (double(bounds.width) / double(bounds.height) < 1) {
                             cords.push_back(cv::Point(xcord, ycord + 1));
-                            cords.push_back(cv::Point(xcord - 1, ycord + 1));
+                            if (topCorners[i].x > bounds.x + 15) {
+                                cords.push_back(cv::Point(xcord - 1, ycord + 1));
+                                cords.push_back(cv::Point(xcord - 1, ycord + 2));
+                            } else {
+                                cords.push_back(cv::Point(xcord + 1, ycord + 1));
+                                cords.push_back(cv::Point(xcord + 1, ycord + 2));
+                            }
                         } else {
                             cords.push_back(cv::Point(xcord + 1, ycord));
-                            cords.push_back(cv::Point(xcord + 2, ycord));
+                            if (topCorners[i].x > bounds.x + 15) {
+                                cords.push_back(cv::Point(xcord, ycord + 1));
+                                cords.push_back(cv::Point(xcord - 1, ycord + 1));
+                            } else {
+                                cords.push_back(cv::Point(xcord + 1, ycord + 1));
+                                cords.push_back(cv::Point(xcord + 2, ycord + 1));
+                            }
                         }
                     } else {
-                        cords.push_back(cv::Point(xcord, ycord + 1));
-                        cords.push_back(cv::Point(xcord, ycord + 2));
-                        if (topCorners[i].x > bounds.x + 20) {
-                            cords.push_back(cv::Point(xcord - 1, ycord + 1));
-                        } else {
+                        if (double(bounds.width) / double(bounds.height) > 1) {
                             cords.push_back(cv::Point(xcord + 1, ycord + 1));
+                            if (topCorners[i].x > bounds.x + 20) {
+                                cords.push_back(cv::Point(xcord, ycord + 1));
+                                cords.push_back(cv::Point(xcord - 1, ycord + 1));
+                            } else {
+                                cords.push_back(cv::Point(xcord + 1, ycord));
+                                cords.push_back(cv::Point(xcord + 2, ycord));
+                            }
+                        } else {
+                            cords.push_back(cv::Point(xcord, ycord + 1));
+                            cords.push_back(cv::Point(xcord, ycord + 2));
+                            if (topCorners[i].x > bounds.x + 20) {
+                                cords.push_back(cv::Point(xcord - 1, ycord + 1));
+                            } else {
+                                cords.push_back(cv::Point(xcord + 1, ycord + 1));
+                            }
                         }
                     }
+                    cout << cords << endl;
                 } else {
                     bool a = centers[i].x < boundsMid.x;
                     int b = 2 * int(a) - 1;
@@ -333,6 +364,9 @@ using namespace std;
 //    dilate(mat, mat, kernel);
 
     bitwise_not(mat, mat);
+    
+    image = MatToUIImage(mat);
+    
     
     return mat;
 }
