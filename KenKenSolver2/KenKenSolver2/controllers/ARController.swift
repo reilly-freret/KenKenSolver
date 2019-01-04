@@ -20,7 +20,6 @@ class ARController: UIViewController, ARSCNViewDelegate {
         toggleTorch(flashOutlet.isOn)
     }
     
-    
     var isPaused: Bool = true
     var isSolving: Bool = false
     var puzzleImage = UIImage()
@@ -85,9 +84,7 @@ class ARController: UIViewController, ARSCNViewDelegate {
         if let v = measure(name: "main", { Solver.solve(values) } ) {
             let solution = Solver.printStep(v)
             print(solution)
-            var img = UIImage(color: UIColor.white, size: CGSize(width: 200, height: 200))
-            img = img?.textOnImage(withText: solution, atPoint: CGPoint(x: 0, y: 0))
-            Puzzle.resultImage = img
+            Puzzle.resultImage = Puzzle.generateImage(Solver.solutionArray(v))
             return true
         }
         return false

@@ -52,5 +52,124 @@ final class Puzzle {
         
         return valArray
     }
+    
+    static func generateImage(_ values: [[Int]]) -> UIImage {
+        
+        let image = drawConstantsAndOps(drawGroups(drawMainGrid()))
+        
+        return image.drawValues(values, Puzzle.dimension)
+        
+    }
+    
+    private static func drawMainGrid() -> UIImage {
+        
+        let image = UIImage(color: UIColor.white, size: CGSize(width: 500, height: 500))!
+        let dim = Puzzle.dimension
+        
+        let imageSize = image.size
+        let scale: CGFloat = 0
+        UIGraphicsBeginImageContextWithOptions(imageSize, false, scale)
+        let context = UIGraphicsGetCurrentContext()!
+        
+        image.draw(at: CGPoint.zero)
+        
+        let rectangle = CGRect(x: 20, y: 20, width: 960, height: 960)
+        
+        context.setStrokeColor(UIColor.black.cgColor)
+        context.setLineWidth(12)
+        
+        context.stroke(rectangle)
+        
+        for i in 1 ..< dim {
+            let hPath = UIBezierPath()
+            hPath.move(to: CGPoint(x: (960 / dim) * i + 20, y: 20))
+            hPath.addLine(to: CGPoint(x: (960 / dim) * i + 20, y: 980))
+            UIColor.black.setStroke()
+            hPath.lineWidth = 4
+            hPath.stroke()
+            
+            let vPath = UIBezierPath()
+            vPath.move(to: CGPoint(x: 20, y: (960 / dim) * i + 20))
+            vPath.addLine(to: CGPoint(x: 980, y: (960 / dim) * i + 20))
+            vPath.lineWidth = 4
+            vPath.stroke()
+        }
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return newImage
+        
+    }
+    
+    private static func drawGroups(_ image: UIImage) -> UIImage {
+        
+        let imageSize = image.size
+        let scale: CGFloat = 0
+        UIGraphicsBeginImageContextWithOptions(imageSize, false, scale)
+        
+        image.draw(at: CGPoint.zero)
+        UIColor.black.setStroke()
+        
+        let step = 960 / Puzzle.dimension
+        
+        for (_, value) in Puzzle.groups {
+            let cells = value.cells
+            for cell in cells {
+                let a = cells.contains { $0.x == cell.x && $0.y == cell.y - 1 }
+                let b = cells.contains { $0.x == cell.x + 1 && $0.y == cell.y }
+                let c = cells.contains { $0.x == cell.x && $0.y == cell.y + 1 }
+                let d = cells.contains { $0.x == cell.x - 1 && $0.y == cell.y }
+                if !a {
+                    let path = UIBezierPath()
+                    path.move(to: CGPoint(x: cell.x * step + 20, y: cell.y * step + 20))
+                    path.addLine(to: CGPoint(x: (cell.x + 1) * step + 20, y: cell.y * step + 20))
+                    path.lineWidth = 12
+                    path.stroke()
+                }
+                if !b {
+                    let path = UIBezierPath()
+                    path.move(to: CGPoint(x: (cell.x + 1) * step + 20, y: cell.y * step + 20))
+                    path.addLine(to: CGPoint(x: (cell.x + 1) * step + 20, y: (cell.y + 1) * step + 20))
+                    path.lineWidth = 12
+                    path.stroke()
+                }
+                if !c {
+                    let path = UIBezierPath()
+                    path.move(to: CGPoint(x: (cell.x + 1) * step + 20, y: (cell.y + 1) * step + 20))
+                    path.addLine(to: CGPoint(x: cell.x * step + 20, y: (cell.y + 1) * step + 20))
+                    path.lineWidth = 12
+                    path.stroke()
+                }
+                if !d {
+                    let path = UIBezierPath()
+                    path.move(to: CGPoint(x: cell.x * step + 20, y: (cell.y + 1) * step + 20))
+                    path.addLine(to: CGPoint(x: cell.x * step + 20, y: cell.y * step + 20))
+                    path.lineWidth = 12
+                    path.stroke()
+                }
+            }
+        }
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return newImage
+        
+    }
+    
+    private static func drawConstantsAndOps(_ image: UIImage) -> UIImage {
+        
+        var types = [(String, Int, Int)]()
+        
+        for (_, value) in Puzzle.groups {
+            let s = String(value.constant) + value.operation
+            let cell = value.cells[0]
+            types.append((s, cell.x, cell.y))
+        }
+        
+        return image.drawTypes(types, Puzzle.dimension)
+        
+    }
 
 }

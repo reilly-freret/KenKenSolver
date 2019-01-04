@@ -41,7 +41,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ifT-RN-U6f">
-                                <rect key="frame" x="30" y="186" width="315" height="315"/>
+                                <rect key="frame" x="15" y="171" width="345" height="345"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ifT-RN-U6f" secondAttribute="height" id="oJq-dB-qNF"/>
                                 </constraints>
@@ -49,7 +49,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ifT-RN-U6f" firstAttribute="leading" secondItem="Yg2-F9-hTw" secondAttribute="leading" constant="30" id="5TH-T8-YLy"/>
+                            <constraint firstItem="ifT-RN-U6f" firstAttribute="leading" secondItem="Yg2-F9-hTw" secondAttribute="leading" constant="15" id="5TH-T8-YLy"/>
                             <constraint firstItem="ifT-RN-U6f" firstAttribute="centerY" secondItem="Yg2-F9-hTw" secondAttribute="centerY" id="9NZ-PD-88I"/>
                             <constraint firstItem="ifT-RN-U6f" firstAttribute="centerX" secondItem="Yg2-F9-hTw" secondAttribute="centerX" id="LLd-nN-V6N"/>
                         </constraints>

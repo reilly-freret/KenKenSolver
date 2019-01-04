@@ -146,6 +146,7 @@ final class Solver {
     }
     
     static func printStep(_ values: [[Dictionary<String, Any>]]) -> String {
+        
         var s = ""
         for row in values {
             for cell in row {
@@ -154,6 +155,22 @@ final class Solver {
             s += "\n"
         }
         return s
+        
+    }
+    
+    static func solutionArray(_ values: [[Dictionary<String, Any>]]) -> [[Int]] {
+        
+        var a = [[Int]]()
+        var r = [Int]()
+        for row in values {
+            for cell in row {
+                r.append(cell["currVal"] as! Int)
+            }
+            a.append(r)
+            r.removeAll()
+        }
+        return a
+        
     }
     
 }
