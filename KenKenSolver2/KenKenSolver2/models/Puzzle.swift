@@ -21,6 +21,8 @@ final class Puzzle {
     
     static func generateStructure(_ dim: Int, _ dict: NSMutableDictionary) -> [[Dictionary<String, Any>]] {
         
+        self.groups.removeAll()
+        
         Puzzle.dimension = dim
         var valArray = [[Dictionary<String, Any>]]()
         var initialRow = [Dictionary<String, Any>]()
@@ -49,7 +51,6 @@ final class Puzzle {
             }
             Puzzle.groups[n] = group
         }
-        
         return valArray
     }
     

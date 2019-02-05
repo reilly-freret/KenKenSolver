@@ -15,72 +15,141 @@ using namespace std;
 
 @implementation OpenCVWrapper
 
-//+(UIImage *)extractGroups:(UIImage *)image
-+(void)extractGroups:(UIImage *)image :(NSMutableDictionary *)dict;
-{
-    Mat underlay = [self preprocessText:image];
-    cvtColor(underlay, underlay, CV_GRAY2RGB);
-    
-    Mat i;
-    UIImageToMat(image, i);
-    
-    cvtColor(i, i, CV_BGR2GRAY);
-    
-    Mat mat = Mat(i.size(), CV_8UC1);
-    
-//    GaussianBlur(i, i, cv::Size(9,9), 0);
-//
-//    threshold(i, mat, 0, 255, CV_THRESH_BINARY_INV | CV_THRESH_OTSU);
-//
-    Mat threeKernel = getStructuringElement(MORPH_CROSS, cv::Size(3,3));
-//    Mat fiveKernel = getStructuringElement(MORPH_CROSS, cv::Size(5,5));
-//    morphologyEx(mat, mat, MORPH_OPEN, fiveKernel);
 
-    GaussianBlur(i, i, cv::Size(19,19), 0);
-    
-    adaptiveThreshold(i, mat, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV, 5, 2);
-    
-    int count = 0;
-    int max = -1;
-    
-    cv::Point maxPt;
-    
-    for(int y=0;y<mat.size().height;y++)
-    {
-        uchar *row = mat.ptr(y);
-        for(int x=0;x<mat.size().width;x++)
-        {
-            if(row[x]>=128)
-            {
-                int area = floodFill(mat, cv::Point(x,y), CV_RGB(0,0,64));
-                
-                if(area>max)
-                {
-                    maxPt = cv::Point(x,y);
-                    max = area;
-                }
-            }
+// MARK: experimental visualization shiet
+
+bool comparePoints(cv::Point a, cv::Point b) {
+    if (abs(a.y - b.y) <= 10) {
+        if (a.x / 3 <= b.x / 3) {
+            return true;
         }
+    }
+    return false;
+}
+
+
++(UIImage *)testIntersectionDetection:(UIImage *)image; {
+    
+    Mat original;
+    UIImageToMat(image, original);
+    cvtColor(original, original, CV_BGR2GRAY);
+    Mat adapted = Mat(original.size(), CV_8UC1);
+    GaussianBlur(original, original, cv::Size(3,3), 0);
+    adaptiveThreshold(original, adapted, 255, CV_ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV, 9, 10);
+    
+    Mat horiz, vert;
+    adapted.copyTo(horiz);
+    adapted.copyTo(vert);
+
+    Mat horizStructure = getStructuringElement(MORPH_RECT, cv::Size(horiz.rows / 20, 2));
+    morphologyEx(horiz, horiz, MORPH_OPEN, horizStructure);
+    dilate(horiz, horiz, horizStructure);
+    
+    Mat vertStructure = getStructuringElement(MORPH_RECT, cv::Size(2, horiz.cols / 20));
+    morphologyEx(vert, vert, MORPH_OPEN, vertStructure);
+    dilate(vert, vert, vertStructure);
+    
+    Mat dest;
+    bitwise_and(vert, horiz, dest);
+    Mat colorTest;
+    cvtColor(original, colorTest, CV_GRAY2BGR);
+    
+    Mat labels, stats, centroids;
+    int nothing = connectedComponentsWithStats(dest, labels, stats, centroids);
+    
+    vector<cv::Point> points;
+    
+    for (int i = 1; i < centroids.rows; i++) {
+        
+        int x = int(centroids.row(i).at<double>(0));
+        int y = int(centroids.row(i).at<double>(1));
+        points.push_back(cv::Point(x, y));
         
     }
     
-    floodFill(mat, maxPt, CV_RGB(255,255,255));
     
-    for(int y=0;y<mat.size().height;y++)
-    {
-        uchar *row = mat.ptr(y);
-        for(int x=0;x<mat.size().width;x++)
-        {
-            if(row[x]==64 && x!=maxPt.x && y!=maxPt.y)
-            {
-                int area = floodFill(mat, cv::Point(x,y), CV_RGB(0,0,0));
-            }
+    stable_sort(points.begin(), points.end(), comparePoints);
+    
+    int count = 0;
+    for (cv::Point p : points) {
+        circle(colorTest, p, 4, Scalar(255, 0, 0), CV_FILLED);
+        putText(colorTest, to_string(count++), cv::Point(p.x + 4, p.y + 4), FONT_HERSHEY_PLAIN, 3.0, Scalar(0, 0, 255));
+    }
+    
+    vector<cv::Point> maps;
+    int dim = [self getDimension:image];
+    int inset = 80; // probably make this even
+    int pixels = colorTest.cols - inset;
+    
+    for (int i = 0; i < dim + 1; i++) {
+        for (int j = 0; j < dim + 1; j++) {
+            int step = (pixels / dim);
+            circle(colorTest, cv::Point(step * j + inset / 2, step * i + inset / 2), 4, Scalar(0, 0, 255), CV_FILLED);
+            maps.push_back(cv::Point(step * j + inset / 2, step * i + inset / 2));
         }
     }
     
-    morphologyEx(mat, mat, MORPH_CLOSE, threeKernel);
-//    erode(mat, mat, threeKernel);
+    Mat hom = findHomography(points, maps, CV_RANSAC);
+    Mat result;
+    warpPerspective(original, result, hom, original.size());
+
+    cvtColor(result, result, CV_GRAY2BGR);
+    return MatToUIImage(result);
+//    return MatToUIImage(dest);
+//    return MatToUIImage(adapted);
     
+    
+}
+
++(UIImage *)testGridExtraction:(UIImage *)image; {
+    
+    Mat i;
+    UIImageToMat(image, i);
+    cvtColor(i, i, CV_BGR2GRAY);
+    Mat mat = Mat(i.size(), CV_8UC1);
+    GaussianBlur(i, i, cv::Size(21,21), 0);
+    adaptiveThreshold(i, mat, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV, 5, 2);
+    morphologyEx(mat, mat, MORPH_OPEN, getStructuringElement(MORPH_ELLIPSE, cv::Size(3,3)));
+
+    Mat labels;
+    int asdf = connectedComponents(mat, labels);
+    compare(labels, 1, mat, CMP_EQ);
+    
+    morphologyEx(mat, mat, MORPH_CLOSE, getStructuringElement(MORPH_ELLIPSE, cv::Size(7,7)));
+    
+    return MatToUIImage(mat);
+    
+}
+
+//
+
+//+(UIImage *)extractGroups:(UIImage *)image
++(void)extractGroups:(UIImage *)image :(NSMutableDictionary *)dict;
+{
+    
+    // send image off for text processing (which happens to be magical, apparently, because I can't remember doing it)
+    Mat underlay = [self preprocessText:image];
+    cvtColor(underlay, underlay, CV_GRAY2RGB);
+    
+    // preprocess for lifting groups
+    // TODO: flatten image using:
+        // findHomography between theoretical "flat" grid vertices and actual grid vertices
+        // map using either remap() or warpPerspective(), so whole thing is flat, occupying the same space
+    
+    // first, make greyscale and apply blur, threshold, and morphological open
+    Mat i;
+    UIImageToMat(image, i);
+    cvtColor(i, i, CV_BGR2GRAY);
+    Mat mat = Mat(i.size(), CV_8UC1);
+    GaussianBlur(i, i, cv::Size(21,21), 0);
+    adaptiveThreshold(i, mat, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV, 5, 2);
+    morphologyEx(mat, mat, MORPH_OPEN, getStructuringElement(MORPH_ELLIPSE, cv::Size(3,3)));
+    // then, cover up everything but the first (upper-leftmost) blob (which happens to be the grid)
+    const int connectivity_8 = 8;
+    Mat labels, stats, centroids;
+    int nLabels = connectedComponentsWithStats(mat, labels, stats, centroids, connectivity_8, CV_32S);
+    compare(labels, 1, mat, CMP_EQ);
+
     vector<vector<cv::Point>> contours;
     vector<Vec4i> hierarchy;
     findContours(mat, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
@@ -145,11 +214,13 @@ using namespace std;
         
         int xcord = (topCorners[i].x - bigBox.x + (bigBox.width / (dim * 1.8))) / (bigBox.width / dim);
         int ycord = (topCorners[i].y - bigBox.y + (bigBox.height / (dim * 1.8))) / (bigBox.height / dim);
-        int numCells = int(areas[i] * 1.2) / (bigBox.area() / (dim * dim));
+        int numCells = int(areas[i] * 1.3) / (bigBox.area() / (dim * dim));
         
         // if we're outside the bounds of the puzzle, quit like fuq
         if (numCells < 1 || xcord < 0 || xcord >= dim || ycord < 0 || ycord >= dim) {
             allCords.clear();
+            cout << "broken" << endl;
+            cout << numCells << " " << dim << " " << xcord << " " << ycord << endl;
             break;
         }
         
@@ -360,9 +431,6 @@ using namespace std;
         }
     }
     
-//    erode(mat, mat, kernel);
-//    dilate(mat, mat, kernel);
-
     bitwise_not(mat, mat);
     
     image = MatToUIImage(mat);

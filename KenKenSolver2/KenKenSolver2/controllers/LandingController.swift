@@ -15,6 +15,8 @@ import SwiftyTesseract
 class LandingController: UIViewController {
 
     @IBOutlet var image: UIImageView!
+    @IBOutlet var noImageLabel: UILabel!
+    
     let st = SwiftyTesseract(language: .english)
     
     override func viewDidLoad() {
@@ -39,6 +41,9 @@ class LandingController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         if let result = Puzzle.resultImage {
             image.image = result
+            noImageLabel.isHidden = true
+        } else {
+            noImageLabel.isHidden = false
         }
     }
     

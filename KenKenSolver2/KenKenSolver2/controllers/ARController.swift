@@ -15,10 +15,6 @@ class ARController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet var targetRect: UIView!
     
-    @IBOutlet var flashOutlet: UISwitch!
-    @IBAction func flashToggle(_ sender: Any) {
-        toggleTorch(flashOutlet.isOn)
-    }
     
     var isPaused: Bool = true
     var isSolving: Bool = false
@@ -28,7 +24,7 @@ class ARController: UIViewController, ARSCNViewDelegate {
         
         super.viewDidLoad()
         sceneView.delegate = self
-        sceneView.showsStatistics = true
+//        sceneView.showsStatistics = true
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
     }
@@ -53,29 +49,6 @@ class ARController: UIViewController, ARSCNViewDelegate {
         
     }
     
-    func toggleTorch(_ on: Bool) {
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video)
-            else {return}
-        
-        if device.hasTorch {
-            do {
-                try device.lockForConfiguration()
-                
-                if on == true {
-                    device.torchMode = .on // set on
-                } else {
-                    device.torchMode = .off // set off
-                }
-                
-                device.unlockForConfiguration()
-            } catch {
-                print("Torch could not be used")
-            }
-        } else {
-            print("Torch is not available")
-        }
-    }
-    
     func attemptSolve(_ i: UIImage) -> Bool {
         var puzzleDict = NSMutableDictionary()
         OpenCVWrapper.extractGroups(i, puzzleDict)
@@ -89,6 +62,20 @@ class ARController: UIViewController, ARSCNViewDelegate {
         }
         return false
     }
+    
+    // TESTING TERRITORY
+    
+    func testVisualization(_ img: UIImage) -> Bool {
+        
+//        Puzzle.resultImage = OpenCVWrapper.testGridExtraction(img)
+        var i = OpenCVWrapper.testIntersectionDetection(img)
+        Puzzle.resultImage = OpenCVWrapper.testGridExtraction(i)
+        
+        return true
+        
+    }
+    
+    //
     
     func startRectangleDetection() {
         
@@ -107,6 +94,7 @@ class ARController: UIViewController, ARSCNViewDelegate {
                                 self.view.screenLoading()
                                 DispatchQueue.global(qos: .background).async {
                                     let t = self.attemptSolve(i)
+//                                    let t = self.testVisualization(i)
                                     DispatchQueue.main.async {
                                         self.view.screenLoaded()
                                         self.isSolving = false
