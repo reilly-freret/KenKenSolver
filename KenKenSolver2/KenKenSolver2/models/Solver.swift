@@ -28,25 +28,23 @@ final class Solver {
             return cords
         }
         
-        guard let (y, x) = measure(name: "getMostSolved", { getMostSolved(values) } ) else { return values }
+        guard let (y, x) = getMostSolved(values) else { return values }
         
         let currPoss = values[y][x]["poss"] as! Set<Int>
         for testVal in currPoss {
             
-            if measure(name: "applyConstraints", { self.applyConstraints(values, (y, x), testVal) } ) {
+            if self.applyConstraints(values, (y, x), testVal) {
                 
                 var nextStep = values
                 
-                measure(name: "assignment", { nextStep[y][x]["currVal"] = testVal } )
+                nextStep[y][x]["currVal"] = testVal
                 
-                measure(name: "innerLoop", {
-                    for i in 0 ..< values.count {
-                        let first = (nextStep[y][i]["poss"] as! Set<Int>)
-                        let second = (nextStep[i][x]["poss"] as! Set<Int>)
-                        if first.contains(testVal) { nextStep[y][i]["poss"] = first.subtracting([testVal]) }
-                        if second.contains(testVal) { nextStep[i][x]["poss"] = second.subtracting([testVal]) }
-                    }
-                })
+                for i in 0 ..< values.count {
+                    let first = (nextStep[y][i]["poss"] as! Set<Int>)
+                    let second = (nextStep[i][x]["poss"] as! Set<Int>)
+                    if first.contains(testVal) { nextStep[y][i]["poss"] = first.subtracting([testVal]) }
+                    if second.contains(testVal) { nextStep[i][x]["poss"] = second.subtracting([testVal]) }
+                }
                 
                 if let newPuzzle = self.solve(nextStep) {
                     return newPuzzle

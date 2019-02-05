@@ -19,6 +19,12 @@ final class Puzzle {
     
     static let st = SwiftyTesseract(language: .english)
     
+    static func checkRaw(_ dim: Int, _ dict: NSMutableDictionary) -> Bool {
+        
+        return true
+        
+    }
+    
     static func generateStructure(_ dim: Int, _ dict: NSMutableDictionary) -> [[Dictionary<String, Any>]] {
         
         self.groups.removeAll()

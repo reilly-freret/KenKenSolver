@@ -38,7 +38,6 @@ class ARController: UIViewController, ARSCNViewDelegate {
         isSolving = false
         startRectangleDetection()
         
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -54,7 +53,11 @@ class ARController: UIViewController, ARSCNViewDelegate {
         OpenCVWrapper.extractGroups(i, puzzleDict)
         let dim = OpenCVWrapper.getDimension(i)
         let values = Puzzle.generateStructure(Int(dim), puzzleDict)
-        if let v = measure(name: "main", { Solver.solve(values) } ) {
+        // TODO: check raw puzzle data
+        DispatchQueue.main.async {
+            self.view.screenLoading()
+        }
+        if let v = Solver.solve(values) {
             let solution = Solver.printStep(v)
             print(solution)
             Puzzle.resultImage = Puzzle.generateImage(Solver.solutionArray(v))
@@ -88,13 +91,12 @@ class ARController: UIViewController, ARSCNViewDelegate {
                             if self.compareToWindow(o) {
                                 
                                 if self.isSolving { return }
+                                self.targetRect.layer.borderColor = UIColor.green.cgColor
                                 self.isSolving = true
                                 self.isPaused = true
                                 let i = self.cropToTarget(self.sceneView.snapshot())
-                                self.view.screenLoading()
                                 DispatchQueue.global(qos: .background).async {
                                     let t = self.attemptSolve(i)
-//                                    let t = self.testVisualization(i)
                                     DispatchQueue.main.async {
                                         self.view.screenLoaded()
                                         self.isSolving = false
@@ -108,8 +110,8 @@ class ARController: UIViewController, ARSCNViewDelegate {
                 }
             }
             request.maximumObservations = 0
-            request.maximumAspectRatio = 1.1
-            request.minimumAspectRatio = 0.9
+            request.maximumAspectRatio = 1.05
+            request.minimumAspectRatio = 0.95
             if let cf = self.sceneView.session.currentFrame {
                 let handler = VNImageRequestHandler(cvPixelBuffer: cf.capturedImage, options: [:])
                 try? handler.perform([request])
@@ -120,11 +122,11 @@ class ARController: UIViewController, ARSCNViewDelegate {
     
     func switchUp(_ t: Bool) {
         if t {
-            self.targetRect.layer.borderColor = UIColor.green.cgColor
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.navigationController?.popViewController(animated: true)
             }
         } else {
+            self.targetRect.layer.borderColor = UIColor.white.cgColor
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.isPaused = false
                 self.startRectangleDetection()

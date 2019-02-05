@@ -31,7 +31,7 @@ class LandingController: UIViewController {
         OpenCVWrapper.extractGroups(i, puzzleDict)
         let dim = OpenCVWrapper.getDimension(i)
         let values = Puzzle.generateStructure(Int(dim), puzzleDict)
-        if let v = measure({ Solver.solve(values) }){
+        if let v = Solver.solve(values) {
             print(Solver.printStep(v))
         } else {
             print("big failure")
