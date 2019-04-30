@@ -31,11 +31,16 @@ class ARController: UIViewController, ARSCNViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         
+        print("a")
+        
         super.viewWillAppear(animated)
         let configuration = ARWorldTrackingConfiguration()
         sceneView.session.run(configuration)
         isPaused = false
         isSolving = false
+        
+        print("b")
+        
         startRectangleDetection()
         
     }
@@ -80,16 +85,17 @@ class ARController: UIViewController, ARSCNViewDelegate {
     
     //
     
+    
+    // NOTE: (30 April 2019) bug with CoreMotion library (apparently invoked by instance of VNDetectRectanglesRequest) causes issues if Main Thread Checker is enabled (CM lib calls UI API from background thread). Disable Main Thread Checker to bypass until Apple gets its shit together
     func startRectangleDetection() {
-        
         if isPaused { return }
         DispatchQueue.global(qos: .background).async {
             let request = VNDetectRectanglesRequest { (request, error) in
                 DispatchQueue.main.async {
                     if let results = request.results as? [VNRectangleObservation], let _ = results.first {
                         for o in results {
+//                            self.trackManager(o)
                             if self.compareToWindow(o) {
-                                
                                 if self.isSolving { return }
                                 self.targetRect.layer.borderColor = UIColor.green.cgColor
                                 self.isSolving = true
@@ -105,6 +111,7 @@ class ARController: UIViewController, ARSCNViewDelegate {
                                 }
                                 return
                             }
+                            
                         }
                     }
                 }
@@ -136,21 +143,51 @@ class ARController: UIViewController, ARSCNViewDelegate {
     
     func compareToWindow(_ rect: VNRectangleObservation) -> Bool {
         
-        let detectedRect = view.convertFromCamera(rect.boundingBox)
-        let threshold: CGFloat = 10.0
+        print("comparing")
         
+        let detectedRect = sceneView.convertFromCamera(rect.boundingBox)
+        let threshold: CGFloat = 10.0
         let minx = targetRect.frame.minX
-        let maxx = targetRect.frame.maxX
+//        let maxx = targetRect.frame.maxX
         let miny = targetRect.frame.minY
-        let maxy = targetRect.frame.maxY
+//        let maxy = targetRect.frame.maxY
+        
+        let w = targetRect.frame.width
+        let h = targetRect.frame.height
+        
+        
+        print("min X: \(detectedRect.minX) ... \(minx)")
+//        print("max X: \(detectedRect.maxX) ... \(maxx)")
+        print("min Y: \(detectedRect.minY) ... \(miny)")
+//        print("max Y: \(detectedRect.maxY) ... \(maxy)\n")
+        
+        print("width: \(detectedRect.width)")
+        print("height: \(detectedRect.height)\n")
         
         // I'm a geniussss
         let topLeftCheck: Bool = minx ... minx + threshold ~= detectedRect.minX && miny ... miny + threshold ~= detectedRect.minY
-        let bottomRightCheck: Bool = maxx - threshold ... maxx ~= detectedRect.maxX && maxy - threshold ... maxy ~= detectedRect.maxY
+//        let bottomRightCheck: Bool = maxx - threshold ... maxx ~= detectedRect.maxX && maxy - threshold ... maxy ~= detectedRect.maxY
         
-        return topLeftCheck && bottomRightCheck
+        let dimCheck: Bool = w - threshold ... w ~= detectedRect.width || h - threshold ... h ~= detectedRect.height
+        
+        return topLeftCheck && dimCheck // bottomRightCheck
         
     }
+    
+    // TESTING
+    
+    func trackManager(_ rect: VNRectangleObservation) {
+        view.viewWithTag(68)?.removeFromSuperview()
+        let r = sceneView.convertFromCamera(rect.boundingBox)
+        let v = UIView(frame: r)
+        v.borderWidth = 2
+        v.borderColor = UIColor.red
+        v.tag = 68
+        view.addSubview(v)
+        
+    }
+    
+    //
     
     func cropToTarget(_ image: UIImage) -> UIImage {
         

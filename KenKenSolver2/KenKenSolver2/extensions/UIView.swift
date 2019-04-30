@@ -80,12 +80,14 @@ extension UIView {
         
         let x, y, w, h: CGFloat
         
-        w = rect.height
+        w = rect.height // confusing shit here, but basically the camera coordinates are opposite from the view coordinates
         h = rect.width
         x = rect.origin.y
         y = rect.origin.x
         
-        return CGRect(x: x * frame.width - 40, y: y * frame.height, width: w * frame.width + 80, height: h * frame.height)
+        print("x: \(x), y: \(y), width: \(w), height: \(h)")
+        
+        return CGRect(x: x * frame.width - 50, y: y * frame.height, width: w * frame.width + 100, height: h * frame.height)
         
     }
     

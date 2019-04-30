@@ -13,7 +13,6 @@
 		AF4BD50A21B09CFD003472C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF4BD50921B09CFD003472C3 /* Assets.xcassets */; };
 		AF5C063D21A89E940054EF22 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = AF5C063C21A89E940054EF22 /* OpenCVWrapper.mm */; };
 		AFABBC1421A895260033EA9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFABBC1321A895260033EA9D /* AppDelegate.swift */; };
-		AFABBC1621A895260033EA9D /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AFABBC1521A895260033EA9D /* art.scnassets */; };
 		AFABBC1B21A895260033EA9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFABBC1921A895260033EA9D /* Main.storyboard */; };
 		AFABBC2021A895270033EA9D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFABBC1E21A895270033EA9D /* LaunchScreen.storyboard */; };
 		AFABBC2B21A895270033EA9D /* KenKenSolver2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFABBC2A21A895270033EA9D /* KenKenSolver2Tests.swift */; };
@@ -53,7 +52,6 @@
 		AF5C063E21A89EA30054EF22 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
 		AFABBC1021A895260033EA9D /* KenKenSolver2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KenKenSolver2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFABBC1321A895260033EA9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AFABBC1521A895260033EA9D /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		AFABBC1A21A895260033EA9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AFABBC1F21A895270033EA9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AFABBC2121A895270033EA9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -141,7 +139,6 @@
 				AFAC821E21A89BD5000143DD /* views */,
 				AFAC821D21A89BCB000143DD /* models */,
 				AFAC821A21A89B0F000143DD /* extensions */,
-				AFABBC1521A895260033EA9D /* art.scnassets */,
 				AF4BD50921B09CFD003472C3 /* Assets.xcassets */,
 				AFABBC1921A895260033EA9D /* Main.storyboard */,
 				AFABBC1E21A895270033EA9D /* LaunchScreen.storyboard */,
@@ -293,7 +290,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AFABBC1621A895260033EA9D /* art.scnassets in Resources */,
 				AFABBC2021A895270033EA9D /* LaunchScreen.storyboard in Resources */,
 				AF43D13021A8DED900B6C9AE /* tessdata in Resources */,
 				AFABBC1B21A895260033EA9D /* Main.storyboard in Resources */,
